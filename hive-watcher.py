@@ -15,6 +15,8 @@ from lighthive.exceptions import RPCNodeException
 
 from config import Config
 
+import subprocess
+
 
 class Pings:
     total_pings = 0
@@ -101,8 +103,17 @@ def output(post) -> int:
         if Config.hive_properties:
             data["hiveTxId"] = post["trx_id"]
             data["hiveBlockNum"] = post["block"]
-        print(json.dumps(data))
+        #print(json.dumps(data))
+        feed_json = data
         if "iris" in data:
+            #if feed_json["medium"] == "podcast" and feed_json["reason"] == "update":
+            if feed_json["medium"] == "podcast":
+               if len(feed_json["iris"]) > 0:
+                  url = feed_json["iris"][0]
+                  reason = feed_json["reason"]
+                  command = '/data/files/python/podcastindex/aggregator/url-episode.sh ' + url + ' ' + reason
+                  #print(command)
+                  subprocess.call(command, shell=True)
             return len(data["iris"])
         if "urls" in data:
             return data["num_urls"]
