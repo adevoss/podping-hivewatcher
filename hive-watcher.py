@@ -111,7 +111,7 @@ def output(post) -> int:
                if len(feed_json["iris"]) > 0:
                   url = feed_json["iris"][0]
                   reason = feed_json["reason"]
-                  command = '/data/files/python/podcastindex/aggregator/url-episode.sh ' + url + ' ' + reason
+                  command = '/pah/to/script.sh ' + url + ' ' + reason
                   #print(command)
                   subprocess.call(command, shell=True)
             return len(data["iris"])
